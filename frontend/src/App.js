@@ -1,9 +1,10 @@
 import './App.css';
+import CCTV from './features/CCTV';
 
 function App() {
   return (
     <>
-    <h1>App</h1>
+   <CCTV/>
     </>
   );
 }
