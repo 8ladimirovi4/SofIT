@@ -12,15 +12,14 @@ app.use(express.json());
 app.use(cors({ origin: ['http://localhost:3000'] }));
 
 //получаем массив с картинками
+
 fs.readdir(`${__dirname}/uploads/`,(err, files) => {
-    files.forEach(file => {
-      fs.readdir(`${__dirname}/uploads/${file}`,(err, files) => {
-            if(files){
-              files[0]
-           
-              app.use('/img', express.static(`${__dirname}/uploads/${file}`));
-            }
-          })
+    files.forEach((file, i)=> {
+const dir = { id: i, name: file};
+console.log(dir);
+//написать код, чтобы получать 
+if(dir.id === 4)
+      app.use('/img', express.static(`${__dirname}/uploads/${dir.name}`));
         })
       })
 
