@@ -2,8 +2,10 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path')
 
 const fs = require('fs');
+const { dir } = require('console');
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -11,17 +13,65 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: ['http://localhost:3000'] }));
 
-//получаем массив с картинками
+//получаем данные из JSON файла
 
-fs.readdir(`${__dirname}/uploads/`,(err, files) => {
-    files.forEach((file, i)=> {
-const dir = { id: i, name: file};
-console.log(dir);
-//написать код, чтобы получать 
-if(dir.id === 4)
-      app.use('/img', express.static(`${__dirname}/uploads/${dir.name}`));
-        })
+let info
+  app.use('/data', (req, res, ) => {
+    fs.readdir(`${__dirname}/uploads/`,(err, files) => {
+      files.forEach((file, i)=> {
+  const dir = { id: i, name: file};
+  fs.readFile(`${__dirname}/uploads/${dir.name}/trace.json`, 'utf-8', (err, data) => {
+    info = data
+  })
+})
+})
+if(info){
+res.json({trace: info})
+}
+  })
+
+  let image
+  let dir1
+  app.use('/img', (req, res, next) => {
+    fs.readdir(`${__dirname}/uploads/`,(err, files) => {
+      files.forEach((file, i)=> {
+        dir1 = { id: i, name: file};
+        next()
+        if(dir1.id === 4)
+        app.use('/img', express.static(`${__dirname}/uploads/${dir1.name}/debug.jpg`))
       })
+})
+  })
+     
+// 
+//   app.use('/img', (req, res, next) => {
+//     const id = req.body.id
+   
+// next(id)
+//   if(id){
+//     if (dir.id === ) {
+//     app.use('/img', (req, res) => { 
+//       // res.sendFile(img)
+//     })
+//   }
+// }else {
+  // app.use('/img', (req, res) => { 
+  //   // res.sendFile(img)
+  //   res.json({path:img})
+  // })
+// }
+//   })
+
+// if(dir.id === 2){
+// app.use('/img', (req, res) => {
+//   res.sendFile(img)
+// })
+// }
+//написать код, чтобы получать 
+
+// app.use('/img', express.static(`${__dirname}/uploads/${dir.name}/debug.jpg`));
+       
+
 
  
 
@@ -33,11 +83,13 @@ if(dir.id === 4)
   // //получить имя дикторий в массиве
   // fs.readdir(`${__dirname}/uploads`, { withFileTypes: true }, (err, files) => {
   //   files.filter(d => d.isDirectory()).map(d => d.name)
-
   //   })
 
 //routes
-app.use('/upload', express.static('./uploads'));
+// app.use('/upload', express.static('./uploads'));
 
 
 app.listen(PORT, () => console.log(`Server started on ${PORT} port`));
+
+
+// const image = path.resolve(`${__dirname}/uploads/${dir1.name}/debug.jpg`)
