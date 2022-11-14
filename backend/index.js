@@ -2,46 +2,20 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const path = require('path')
 
-const fs = require('fs');
-const { dir } = require('console');
+const infoRouter = require('./routes/infoRouter');
+const imgRouter = require('./routes/imgRouter');
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+
 app.use(cors({ origin: ['http://localhost:3000'] }));
+app.use('/data', infoRouter);
+app.use('/img', imgRouter);
 
-//получаем данные из JSON файла
-
-let info
-  app.use('/data', (req, res, ) => {
-    fs.readdir(`${__dirname}/uploads/`,(err, files) => {
-      files.forEach((file, i)=> {
-  const dir = { id: i, name: file};
-  fs.readFile(`${__dirname}/uploads/${dir.name}/trace.json`, 'utf-8', (err, data) => {
-    info = data
-  })
-})
-})
-if(info){
-res.json({trace: info})
-}
-  })
-
-  let image
-  let dir1
-  app.use('/img', (req, res, next) => {
-    fs.readdir(`${__dirname}/uploads/`,(err, files) => {
-      files.forEach((file, i)=> {
-        dir1 = { id: i, name: file};
-        next()
-        if(dir1.id === 4)
-        app.use('/img', express.static(`${__dirname}/uploads/${dir1.name}/debug.jpg`))
-      })
-})
-  })
      
 // 
 //   app.use('/img', (req, res, next) => {
@@ -93,3 +67,5 @@ app.listen(PORT, () => console.log(`Server started on ${PORT} port`));
 
 
 // const image = path.resolve(`${__dirname}/uploads/${dir1.name}/debug.jpg`)
+
+// app.use('/img', express.static(`${__dirname}/../uploads/${dir1.name}/debug.jpg`))
