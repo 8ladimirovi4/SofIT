@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import {React, useState} from 'react'
+import {React, useState, useRef} from 'react'
 
 
 
@@ -8,6 +8,7 @@ function CCTV() {
 const [getId, setGetId] = useState(1)
 const [getInfo, setGetInfo] = useState({})
 const [getImage, setGetImage] = useState({})
+const input = useRef()
 
 function getIdPlus () {
   setGetId(prev => prev + 1)
@@ -18,16 +19,19 @@ function getIdMinus () {
 }
 
 
-  // async function FetchFunc () {
-  //   await fetch(`http://localhost:3001/img`, {
-  //    method: 'POST',
-  //    body: JSON.stringify({
-  //    id: getId,
-  //    }),
-  //    headers: { "Content-Type": "application/json" },
-  //  }) 
-  //    }
-  //    FetchFunc ()
+  async function FetchFunc (event) {
+    event.preventDefault()
+    const response = await fetch(`http://localhost:3001/img`, {
+     method: 'POST',
+     body: JSON.stringify({
+     id: input.current.value,
+     }),
+     headers: { "Content-Type": "application/json" },
+   }) 
+   const data = await response.json()
+   setGetImage(data)
+     }
+console.log(getImage);
 
      useEffect(() => {
       async function getInfo () {
@@ -39,14 +43,12 @@ function getIdMinus () {
      },[])
      console.log(getInfo);
 
-// useEffect(() => {
-//   async function getImg () {
-// const response =  await fetch ('http://localhost:3001/img')
-// const data = await response.json()
-// setGetImage(data.img)
-//   }
-//   getImg () 
-//  },[])
+useEffect(() => {
+async function getImg () {
+await fetch ('http://localhost:3001/img')
+  }
+  getImg () 
+ },[getImage])
 
 // if(getImage.name){
 // console.log (getImage.name[0])
@@ -60,6 +62,11 @@ function getIdMinus () {
   
         {/* <button onClick={() => {FetchFunc(); getIdPlus()}}>getIdPlus</button>
         <button onClick={() => {FetchFunc(); getIdMinus()}}>getIdMinus</button> */}
+       <form >
+        <input name="input1" ref={input}/>
+        <button onClick={FetchFunc}>click</button>
+       </form>
+       {/* <p>{getImage && getImage.img}</p> */}
     </div>
   )
 }

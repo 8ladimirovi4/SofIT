@@ -12,7 +12,6 @@ infoRouter
     files.forEach((file, i)=> {
 const dir = { id: i, name: file};
 fs.readFile(`${__dirname}/../uploads/${dir.name}/trace.json`, 'utf-8', (err, data) => {
-  console.log(data);
   info = data
 })
   })
