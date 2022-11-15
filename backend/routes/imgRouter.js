@@ -16,8 +16,7 @@ try{
   id1 = Number(req.body.id)
 fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
   files.forEach((file, i)=> {
-    dir1 = { id: i, name: file};
-    console.log(dir1);
+    dir1 = { id: i-2, name: file};
     return arr.push(dir1)
   })
   arr.map(el => {
@@ -41,7 +40,7 @@ map.set('url', image)
   .sendFile(`${map.get('url')}`)
 }
 else{
-    res.sendFile('/Users/vlleo/Desktop/Тестовые/SofIT/CCTV_pdd/backend/uploads/Y917CP26_8d87adf8-ce40-47b3-814c-4700d28a016f/debug.jpg')
+    res.sendFile(path.resolve(`${__dirname}/../uploads/Y917CP26_8d87adf8-ce40-47b3-814c-4700d28a016f/debug.jpg`))
 
 }
     }catch(error){

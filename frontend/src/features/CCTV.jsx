@@ -5,9 +5,12 @@ import {React, useState, useRef} from 'react'
 
 
 function CCTV() {
-const [getId, setGetId] = useState(1)
+const [getId, setGetId] = useState(0)
 const [getInfo, setGetInfo] = useState()
+const [getDefaultInfo, setDefaultInfo] = useState()
 const [getImage, setGetImage] = useState({})
+
+
 
 
 
@@ -31,9 +34,6 @@ function getIdMinus () {
    const data = await response.json()
    setGetImage(data)
      }
-console.log(getImage.img);
-
-
 
      useEffect(() => {
       async function getInfo () {
@@ -51,27 +51,36 @@ console.log(getImage.img);
      },[getId])
      console.log(getInfo);
 
+     
+
+useEffect(()=> {
+  async function getImgFetch () {
+  const response = await fetch(`http://localhost:3001/data`)
+  if(response.ok){
+  const data = await response.json()
+  setDefaultInfo(JSON.parse(data.trace))
+  }else{
+    console.log('no data');
+  }
+  }
+  getImgFetch ()
+},[])
+console.log('====>', getDefaultInfo);
+
   return (
     <div>
       <h1>CCTV</h1>
-      { getId >= 1 ? 
       <div>
-      <button onClick={() => {FetchFunc();getIdMinus()}}>back</button>
-        <button onClick={() => {FetchFunc();getIdPlus()}}>forward</button>
+        <button onClick={() => {FetchFunc();getIdPlus()}}>List Photo</button>
         <br/>  
         <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
-        
+        {getInfo ? 
         <p>{getInfo && getInfo.history.plate}</p>
-        </div>
 :
-        <div>
-        <button style={{color: 'lightgrey'}}>back</button>
-        <button onClick={() => {FetchFunc();getIdPlus()}}>forward</button>
-        <br/>  
-        <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
-        <p>{getInfo && getInfo.history.plate}</p>
+<p>{getDefaultInfo && getDefaultInfo.history.plate}</p>
+        }
         </div>
-      }
+
    
     </div>
   )
