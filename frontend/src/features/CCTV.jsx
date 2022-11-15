@@ -65,7 +65,7 @@ useEffect(()=> {
   }
   getImgFetch ()
 },[])
-console.log('====>', getDefaultInfo);
+
 
   return (
     <div>

@@ -36,7 +36,7 @@ res.json({trace: info})
 
 .get(`/`, (req, res) => {
   try{
-   fs.readFile(`${__dirname}/../uploads/Y917CP26_8d87adf8-ce40-47b3-814c-4700d28a016f/trace.json`, 'utf-8', (err, data) => {
+   fs.readFile(`${__dirname}/../uploads/A226CO790_0c5759f8-edd9-4e10-b0aa-c996d14bebfc/trace.json`, 'utf-8', (err, data) => {
     if(data)
  res.json({trace: data})
   })
