@@ -16,7 +16,7 @@ try{
   id1 = Number(req.body.id)
 fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
   files.forEach((file, i)=> {
-    dir1 = { id: i+1, name: file};
+    dir1 = { id: i, name: file};
     return arr.push(dir1)
   })
   arr.map(el => {
@@ -35,7 +35,6 @@ map.set('url', image)
 
   .get(`/:id`, (req, res) => {
     try{
-console.log(req.params.id);
    if(map.get('url')){
   res.status(200)
   .sendFile(`${map.get('url')}`)

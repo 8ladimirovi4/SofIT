@@ -40,41 +40,38 @@ console.log(getImage.img);
 
      useEffect(() => {
       async function getInfo () {
-  const response =  await fetch ('http://localhost:3001/data')
+  const response =  await fetch ('http://localhost:3001/data', {
+    method: 'POST',
+     body: JSON.stringify({
+     id: getId,
+     }),
+     headers: { "Content-Type": "application/json" },
+  })
   const data = await response.json()
   setGetInfo(JSON.parse(data.trace));
       }
       getInfo () 
-     },[getImage])
+     },[getId])
      console.log(getInfo);
-
-// useEffect(() => {
-// async function getImg () {
-// const response = await fetch ('http://localhost:3001/img')
-//   }
-//   getImg () 
-//  },[getImage])
-//  console.log(getId);
-
-// if(getImage.name){
-// console.log (getImage.name[0])
-// }
 
   return (
     <div>
       <h1>CCTV</h1>
       { getId >= 2 ? 
       <>
-        <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
-        <br/>   
-        <button onClick={() => {FetchFunc();getIdMinus()}}>back</button>
+      <button onClick={() => {FetchFunc();getIdMinus()}}>back</button>
         <button onClick={() => {FetchFunc();getIdPlus()}}>forward</button>
+        <br/>  
+        <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
+        
+        
         </>
 :
-<>
-<img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
-        <br/>   
+        <>
+        <button>back</button>
         <button onClick={() => {FetchFunc();getIdPlus()}}>forward</button>
+        <br/>  
+        <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
         </>
       }
        <p>{getInfo && getInfo.timestamp}</p>

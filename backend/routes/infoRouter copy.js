@@ -6,14 +6,12 @@ const path = require('path');
 //получаем данные из JSON файла
 let info
 infoRouter
-.post('/', (req, res, ) => {
+.get('/', (req, res, ) => {
   try{
-    id1 = Number(req.body.id)
   fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
     files.forEach((file, i)=> {
-const dir1 = { id: i, name: file};
-if(dir1.id === id1)
-fs.readFile(`${__dirname}/../uploads/${dir1.name}/trace.json`, 'utf-8', (err, data) => {
+const dir = { id: i, name: file};
+fs.readFile(`${__dirname}/../uploads/${dir.name}/trace.json`, 'utf-8', (err, data) => {
   info = data
 })
   })
@@ -26,4 +24,4 @@ res.json({trace: info})
 }
 })
 
-module.exports = infoRouter;
+// module.exports = infoRouter;
