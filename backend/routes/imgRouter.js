@@ -17,6 +17,7 @@ try{
 fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
   files.forEach((file, i)=> {
     dir1 = { id: i, name: file};
+    console.log(dir1);
     return arr.push(dir1)
   })
   arr.map(el => {

@@ -5,8 +5,8 @@ import {React, useState, useRef} from 'react'
 
 
 function CCTV() {
-const [getId, setGetId] = useState(2)
-const [getInfo, setGetInfo] = useState({})
+const [getId, setGetId] = useState(1)
+const [getInfo, setGetInfo] = useState()
 const [getImage, setGetImage] = useState({})
 
 
@@ -17,9 +17,6 @@ function getIdPlus () {
 
 function getIdMinus () {
   setGetId(prev => prev - 1)
-  if (getId < 2) {
-    setGetId(2)
-  }
 }
 
 
@@ -57,24 +54,25 @@ console.log(getImage.img);
   return (
     <div>
       <h1>CCTV</h1>
-      { getId >= 2 ? 
-      <>
+      { getId >= 1 ? 
+      <div>
       <button onClick={() => {FetchFunc();getIdMinus()}}>back</button>
         <button onClick={() => {FetchFunc();getIdPlus()}}>forward</button>
         <br/>  
         <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
         
-        
-        </>
+        <p>{getInfo && getInfo.history.plate}</p>
+        </div>
 :
-        <>
-        <button>back</button>
+        <div>
+        <button style={{color: 'lightgrey'}}>back</button>
         <button onClick={() => {FetchFunc();getIdPlus()}}>forward</button>
         <br/>  
         <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
-        </>
+        <p>{getInfo && getInfo.history.plate}</p>
+        </div>
       }
-       <p>{getInfo && getInfo.timestamp}</p>
+   
     </div>
   )
 }
