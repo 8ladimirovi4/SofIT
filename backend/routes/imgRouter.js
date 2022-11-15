@@ -15,16 +15,22 @@ imgRouter
 try{
   id1 = Number(req.body.id)
 fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
   files.forEach((file, i)=> {
     dir1 = { id: i-2, name: file};
     return arr.push(dir1)
   })
   arr.map(el => {
-    if(el.id === id1)
-  image = path.resolve(`${__dirname}/../uploads/${el.name}/debug.jpg`)     
+    if(el.id === id1){
+  image = path.resolve(`${__dirname}/../uploads/${el.name}/debug.jpg`)
+    }else{
+      return
+    }     
 })
 map.set('url', image)
-  // res.sendFile(image)
   res.json({img: image})
 })
 }catch (error){
@@ -40,7 +46,7 @@ map.set('url', image)
   .sendFile(`${map.get('url')}`)
 }
 else{
-    res.sendFile(path.resolve(`${__dirname}/../uploads/Y917CP26_8d87adf8-ce40-47b3-814c-4700d28a016f/debug.jpg`))
+    res.sendFile(path.resolve(`${__dirname}/../uploads/A226CO790_0c5759f8-edd9-4e10-b0aa-c996d14bebfc/debug.jpg`))
 
 }
     }catch(error){

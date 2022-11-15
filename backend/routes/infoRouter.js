@@ -12,10 +12,17 @@ infoRouter
   fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
     files.forEach((file, i)=> {
 const dir1 = { id: i-2, name: file};
-if(dir1.id === id1)
+if(dir1.id === id1){
 fs.readFile(`${__dirname}/../uploads/${dir1.name}/trace.json`, 'utf-8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
   info = data
 })
+}else{
+  return
+}
   })
     })
 if(info){
