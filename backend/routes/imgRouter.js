@@ -12,37 +12,41 @@ let obj = {}
 let map = new Map()
 imgRouter
 .post('/', (req, res) => {
+try{
   id1 = Number(req.body.id)
-fs.readdir(`${__dirname}/uploads/`,(err, files) => {
+fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
   files.forEach((file, i)=> {
-    dir1 = { id: i, name: file};
+    dir1 = { id: i+1, name: file};
     return arr.push(dir1)
   })
   arr.map(el => {
     if(el.id === id1)
-  image = path.resolve(`${__dirname}/uploads/${el.name}/debug.jpg`)     
- 
-  
-  // console.log('image',image);
-  // console.log(id1);
+  image = path.resolve(`${__dirname}/../uploads/${el.name}/debug.jpg`)     
 })
 map.set('url', image)
   // res.sendFile(image)
   res.json({img: image})
 })
-
+}catch (error){
+  res.json({error: message})
+}
 })
 
 
-
-
-  .get('/', (req, res) => {
-if(map.get('url')){
-  console.log('map===>',map.get('url'));
-  res.sendFile(`${map.get('url')}`)
-}else{
-    res.sendFile('/Users/vlleo/Desktop/Тестовые/SofIT/CCTV_pdd/backend/uploads/Y917CP26_8d87adf8-ce40-47b3-814c-4700d28a016f/debug.jpg')
+  .get(`/:id`, (req, res) => {
+    try{
+console.log(req.params.id);
+   if(map.get('url')){
+  res.status(200)
+  .sendFile(`${map.get('url')}`)
 }
+else{
+    res.sendFile('/Users/vlleo/Desktop/Тестовые/SofIT/CCTV_pdd/backend/uploads/Y917CP26_8d87adf8-ce40-47b3-814c-4700d28a016f/debug.jpg')
+
+}
+    }catch(error){
+      res.json({error: message})
+    }
   })
 
 

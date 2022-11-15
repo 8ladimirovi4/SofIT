@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const infoRouter = require('./routes/infoRouter');
-const imgRouter = require('./imgRouter');
+const imgRouter = require('./routes/imgRouter');
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
