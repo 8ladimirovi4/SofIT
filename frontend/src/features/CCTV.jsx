@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import {React, useState, useRef} from 'react'
+import './cctv.css'
 
 
 
@@ -68,20 +69,29 @@ useEffect(()=> {
 
 
   return (
-    <div>
-      <h1>CCTV</h1>
-      <div>
+    <div className='container'>
+      <div className='content'>
+      <h1>SofIT_CCTV</h1>
         <button onClick={() => {FetchFunc();getIdPlus()}}>List Photo</button>
         <br/>  
+        <br/>  
+    
         <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
         {getInfo ? 
-        <p>{getInfo && getInfo.history.plate}</p>
-:
-<p>{getDefaultInfo && getDefaultInfo.history.plate}</p>
-        }
+    
+        <div className='info'>
+        <p>Гос номер ТС: {getInfo && getInfo.history.plate}</p>
+        <p>Дата фиксации: {getInfo && getInfo.timestamp.slice(0,19)}</p>
+        <p>Тип ТС: {getInfo && getInfo.history.class}</p>
         </div>
-
-   
+:
+        <div className='info'>
+        <p>Гос номер ТС: {getDefaultInfo && getDefaultInfo.history.plate}</p>
+        <p>Дата фиксации: {getDefaultInfo && getDefaultInfo.timestamp.slice(0,19)}</p>
+        <p>Тип ТС: {getDefaultInfo && getDefaultInfo.history.class}</p>
+        </div>
+        }
+      </div>
     </div>
   )
 }
