@@ -9,11 +9,15 @@ function CCTV() {
 const [getId, setGetId] = useState(0)
 const [getInfo, setGetInfo] = useState()
 const [getDefaultInfo, setDefaultInfo] = useState()
-
+const [getTask4, setGetTask4] = useState(false)
 
 
 function getIdPlus () {
   setGetId(prev => prev + 1)
+}
+
+function task4Func () {
+  setGetTask4(prev => !prev === true)
 }
 
   async function FetchFunc () {
@@ -41,17 +45,17 @@ function getIdPlus () {
       }
       getInfo () 
      },[getId])
-     //Для задания 1
-     console.log('Задание1',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.plate.center.y)));
-     //Для задания 2
-     console.log('Задание2',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.plate.region)));
-     //Для задания 3
-     console.log('Задание3',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.vehicle_region)));
-     //Для задания 4
-     console.log('Задание4',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.detection_state.timestamp)));
+    //  //Для задания 1
+    //  console.log('Задание1',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.plate.center.y)));
+    //  //Для задания 2
+    //  console.log('Задание2',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.plate.region)));
+    //  //Для задания 3
+    //  console.log('Задание3',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.vehicle_region)));
+    //  //Для задания 4
+    //  console.log('Задание4',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.detection_state.timestamp)));
 
      const task4 = getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.detection_state.timestamp)).join('\n')
-     console.log(task4);
+   
 
 useEffect(()=> {
   async function getImgFetch () {
@@ -77,9 +81,15 @@ useEffect(()=> {
         <div className='container_img'>
         <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
         <div className='data'>
-          {task4}
+          {getTask4 ? 
+          task4
+          :
+          null
+        }
         </div>
         </div>
+
+
         {getInfo ? 
         <div className='info'>
         <p>Гос номер ТС: {getInfo && getInfo.history.plate}</p>
@@ -93,6 +103,8 @@ useEffect(()=> {
         <p>Тип ТС: {getDefaultInfo && getDefaultInfo.history.class}</p>
         </div>
         }
+        <p>метки времени</p>
+      <input type="checkbox" onChange={task4Func}/>
       </div>
     </div>
   )
