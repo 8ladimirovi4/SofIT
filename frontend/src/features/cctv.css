@@ -58,3 +58,12 @@ canvas {
     position: absolute;
     left: 0;
 }
+
+.checkbox_container{
+    display: flex;
+    justify-content: space-around; 
+}
+
+.checkbox {
+    text-align: center;
+}
