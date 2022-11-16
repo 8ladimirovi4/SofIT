@@ -108,11 +108,11 @@ useEffect(() =>{
   frame.map(el => el.map(coord => {
     context.beginPath();
     // context.moveTo(coord.lb.x *300,coord.lb.y*300);
-    context.lineTo(coord.lb.x*500, coord.lb.y*500)
-    context.lineTo(coord.lt.x*500, coord.lt.y*500)
-    context.lineTo(coord.rt.x*500, coord.rt.y*500)
-    context.lineTo(coord.rb.x*500, coord.rb.y*500)
-    context.lineTo(coord.lb.x*500, coord.lb.y*500)
+    context.lineTo(coord.lb.x*500, coord.lb.y*610)
+    context.lineTo(coord.lt.x*500, coord.lt.y*610)
+    context.lineTo(coord.rt.x*500, coord.rt.y*610)
+    context.lineTo(coord.rb.x*500, coord.rb.y*610)
+    context.lineTo(coord.lb.x*500, coord.lb.y*610)
   
     // context.bezierCurveTo(coord.lt.x*50,coord.lt.y*50,coord.rb.x*50,coord.rb.y*50,coord.rt.x*50,coord.rt.y*50)
     context.stroke();
