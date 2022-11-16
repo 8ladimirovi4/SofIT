@@ -100,7 +100,7 @@ const clearCanvas = () => {
 useEffect(() =>{
   const context = task2.current.getContext("2d");
   if (getInfo) {
-    const frame = getInfo.history.tracks.map(el => el.points.map(el => el.vehicle_region))
+    const frame = getInfo.history.tracks.map(el => el.points.map(el => el.plate.region))
     console.log(frame);
   //  frame.map(el => el.map(coord => console.log('lt', coord.lt.x,
   //  'rt', coord.rt, 'lb', coord.lb, 'rb', coord.rb
@@ -108,7 +108,12 @@ useEffect(() =>{
   frame.map(el => el.map(coord => {
     context.beginPath();
     // context.moveTo(coord.lb.x *300,coord.lb.y*300);
-    context.strokeRect(coord.rb.x*100, coord.rb.y*100, coord.rt.x*100, coord.rt.y*100)
+    context.lineTo(coord.lb.x*500, coord.lb.y*500)
+    context.lineTo(coord.lt.x*500, coord.lt.y*500)
+    context.lineTo(coord.rt.x*500, coord.rt.y*500)
+    context.lineTo(coord.rb.x*500, coord.rb.y*500)
+    context.lineTo(coord.lb.x*500, coord.lb.y*500)
+  
     // context.bezierCurveTo(coord.lt.x*50,coord.lt.y*50,coord.rb.x*50,coord.rb.y*50,coord.rt.x*50,coord.rt.y*50)
     context.stroke();
   }))
