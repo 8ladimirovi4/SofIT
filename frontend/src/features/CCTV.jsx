@@ -143,31 +143,39 @@ function CCTV() {
   }, [getInfo, getTask3]);
 
   useEffect(() => {
-    const context4 = task4.current.getContext('2d');
-    const rect = task4
-    const scale = window
 
-    context4.width = rect.width * scale;
-    context4.height = rect.height * scale;
-    context4.scale(scale, scale);
+    function wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight)
+    {
+        const words = text.split(" ");
+        const countWords = words.length;
+        let line = "";
+        for (let n = 0; n < countWords; n++) {
+            let testLine = line + words[n] + " ";
+            let testWidth = context.measureText(testLine).width;
+            if (testWidth > maxWidth) {
+                context.fillText(line, marginLeft, marginTop);
+                line = words[n] + " ";
+                marginTop += lineHeight;
+            }
+            else {
+                line = testLine;
+            }
+        }
+        context.fillText(line, marginLeft, marginTop);
+    }
+    const maxWidth = 400;
+    const lineHeight = 25;
+    const marginLeft = 20;
+    const marginTop = 40;
+
+    const context4 = task4.current.getContext('2d');
     if (getInfo) {
       const points = getInfo.history.tracks
       .map((el) => el.points.map((el) => el.detection_state.timestamp)).join(' ')
-      console.log(points);
-    
+      context4.fillStyle = "white";
       context4.font = "15px Arial";
-      context4.fillText(splitString(points, 10),5,30);
-   
-        
-        function splitString(string, maxLength) {
-          const splittedString = string.split(' ');
-          let newString;
-          const countedArray = splittedString.map(word => word.length);
-          if (countedArray.reduce((a, b) => a + b) > maxLength) {
-            newString = splittedString.splice(3);
-          }
-          return newString;
-        }
+
+      wrapText(context4,points,marginLeft,marginTop,maxWidth,lineHeight)
     }
   }, [getInfo, getTask1]);
 
