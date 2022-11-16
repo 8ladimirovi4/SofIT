@@ -1,20 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     padding: 0;
     margin: 0;
 }
-.content{
+
+.content {
     position: absolute;
     top: 50%;
     left: 50%;
     margin: -380px 0 0 -300px;
 }
+
 .info {
     width: 600px;
     height: 130px;
-   background-color: black;
-   color: white;
-   margin-top: -20px;
-   padding-top: 10px;
+    background-color: black;
+    color: white;
+    margin-top: -5px;
+    padding-top: 10px;
 }
 
 .container {
@@ -28,10 +36,11 @@ body {
 }
 
 .container_img {
-        position: relative;
-        text-align: center;
-        color: white;
-        z-index: 0;
+    position: relative;
+    text-align: center;
+    color: white;
+    z-index: 0;
+    position: relative;
 }
 
 .data {
@@ -41,4 +50,11 @@ body {
     margin-left: 50px;
     font-size: small;
     width: 500px;
+}
+
+canvas {
+    width: 600px;
+    height: 500px;
+    position: absolute;
+    left: 0;
 }
