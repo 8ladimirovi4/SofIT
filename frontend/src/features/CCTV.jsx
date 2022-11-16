@@ -5,6 +5,7 @@ function CCTV() {
   const task1 = useRef();
   const task2 = useRef();
   const task3 = useRef();
+  const task4 = useRef();
   const [getTask1, setGetTask1] = useState(false);
   const [getTask2, setGetTask2] = useState(false);
   const [getTask3, setGetTask3] = useState(false);
@@ -45,19 +46,15 @@ function CCTV() {
     const data = await response.json();
   }
 
-  const task4 =
-    getInfo &&
-    getInfo.history.tracks
-      .map((el) => el.points.map((el) => el.detection_state.timestamp))
-      .join('\n');
-
   function clearCanvas() {
     const context = task1.current.getContext('2d');
     context.clearRect(0, 0, task1.current.width, task1.current.height);
     const context2 = task2.current.getContext('2d');
     context2.clearRect(0, 0, task2.current.width, task2.current.height);
     const context3 = task3.current.getContext('2d');
-    context3.clearRect(0, 0, task2.current.width, task2.current.height);
+    context3.clearRect(0, 0, task3.current.width, task3.current.height);
+    const context4 = task4.current.getContext('2d');
+    context4.clearRect(0, 0, task4.current.width, task4.current.height);
   }
 
   useEffect(() => {
@@ -145,6 +142,34 @@ function CCTV() {
     }
   }, [getInfo, getTask3]);
 
+  useEffect(() => {
+    const context4 = task4.current.getContext('2d');
+    const rect = task4
+    const scale = window
+
+    context4.width = rect.width * scale;
+    context4.height = rect.height * scale;
+    context4.scale(scale, scale);
+    if (getInfo) {
+      const points = getInfo.history.tracks
+      .map((el) => el.points.map((el) => el.detection_state.timestamp)).join(' ')
+      console.log(points);
+    
+      context4.font = "15px Arial";
+      context4.fillText(splitString(points, 10),5,30);
+   
+        
+        function splitString(string, maxLength) {
+          const splittedString = string.split(' ');
+          let newString;
+          const countedArray = splittedString.map(word => word.length);
+          if (countedArray.reduce((a, b) => a + b) > maxLength) {
+            newString = splittedString.splice(3);
+          }
+          return newString;
+        }
+    }
+  }, [getInfo, getTask1]);
 
   return (
     <div className="container">
@@ -185,9 +210,9 @@ function CCTV() {
           ) : (
             <canvas ref={task3} height={'0px'} width={'0px'} />
           )}
-
-          <div className="data">{getTask4 ? task4 : null}</div>
-        </div>
+     <canvas ref={task4} height={'600px'} width={'500px'} />
+          {/* <div className="data">{getTask4 ? task4 : null}</div> */}
+         </div>
 
         {getInfo ? (
           <div className="info">
