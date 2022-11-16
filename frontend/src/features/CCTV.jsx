@@ -13,7 +13,6 @@ function CCTV() {
   const [getId, setGetId] = useState(0);
   const [getInfo, setGetInfo] = useState();
   const [getDefaultInfo, setDefaultInfo] = useState();
-  const map = new Map();
 
   function getIdPlus() {
     setGetId((prev) => prev + 1);
@@ -143,25 +142,29 @@ function CCTV() {
   }, [getInfo, getTask3]);
 
   useEffect(() => {
-
-    function wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight)
-    {
-        const words = text.split(" ");
-        const countWords = words.length;
-        let line = "";
-        for (let n = 0; n < countWords; n++) {
-            let testLine = line + words[n] + " ";
-            let testWidth = context.measureText(testLine).width;
-            if (testWidth > maxWidth) {
-                context.fillText(line, marginLeft, marginTop);
-                line = words[n] + " ";
-                marginTop += lineHeight;
-            }
-            else {
-                line = testLine;
-            }
+    function wrapText(
+      context,
+      text,
+      marginLeft,
+      marginTop,
+      maxWidth,
+      lineHeight
+    ) {
+      const words = text.split(' ');
+      const countWords = words.length;
+      let line = '';
+      for (let n = 0; n < countWords; n++) {
+        let testLine = line + words[n] + ' ';
+        let testWidth = context.measureText(testLine).width;
+        if (testWidth > maxWidth) {
+          context.fillText(line, marginLeft, marginTop);
+          line = words[n] + ' ';
+          marginTop += lineHeight;
+        } else {
+          line = testLine;
         }
-        context.fillText(line, marginLeft, marginTop);
+      }
+      context.fillText(line, marginLeft, marginTop);
     }
     const maxWidth = 400;
     const lineHeight = 25;
@@ -171,13 +174,13 @@ function CCTV() {
     const context4 = task4.current.getContext('2d');
     if (getInfo) {
       const points = getInfo.history.tracks
-      .map((el) => el.points.map((el) => el.detection_state.timestamp)).join(' ')
-      context4.fillStyle = "white";
-      context4.font = "15px Arial";
-
-      wrapText(context4,points,marginLeft,marginTop,maxWidth,lineHeight)
+        .map((el) => el.points.map((el) => el.detection_state.timestamp))
+        .join(' ');
+      context4.fillStyle = 'white';
+      context4.font = '15px Arial';
+      wrapText(context4, points, marginLeft, marginTop, maxWidth, lineHeight);
     }
-  }, [getInfo, getTask1]);
+  }, [getInfo, getTask4]);
 
   return (
     <div className="container">
@@ -218,9 +221,13 @@ function CCTV() {
           ) : (
             <canvas ref={task3} height={'0px'} width={'0px'} />
           )}
-     <canvas ref={task4} height={'600px'} width={'500px'} />
-          {/* <div className="data">{getTask4 ? task4 : null}</div> */}
-         </div>
+          {getTask4 ? (
+            <canvas ref={task4} height={'600px'} width={'500px'} />
+          ) : (
+            <canvas ref={task4} height={'0px'} width={'0px'} />
+          )}
+         
+        </div>
 
         {getInfo ? (
           <div className="info">
