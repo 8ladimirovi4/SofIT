@@ -26,3 +26,17 @@ body {
     overflow: auto;
 
 }
+
+.container_img {
+        position: relative;
+        text-align: center;
+        color: white;
+        z-index: 0;
+}
+
+.data {
+    position: absolute;
+    z-index: 1;
+    margin-top: -450px;
+    font-size: small;
+}

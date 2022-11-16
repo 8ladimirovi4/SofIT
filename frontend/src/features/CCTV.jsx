@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import {React, useState, useRef} from 'react'
+import {React, useState} from 'react'
 import './cctv.css'
 
 
@@ -9,20 +9,12 @@ function CCTV() {
 const [getId, setGetId] = useState(0)
 const [getInfo, setGetInfo] = useState()
 const [getDefaultInfo, setDefaultInfo] = useState()
-const [getImage, setGetImage] = useState({})
-
-
 
 
 
 function getIdPlus () {
   setGetId(prev => prev + 1)
 }
-
-function getIdMinus () {
-  setGetId(prev => prev - 1)
-}
-
 
   async function FetchFunc () {
     const response = await fetch(`http://localhost:3001/img`, {
@@ -33,7 +25,6 @@ function getIdMinus () {
      headers: { "Content-Type": "application/json" },
    }) 
    const data = await response.json()
-   setGetImage(data)
      }
 
      useEffect(() => {
@@ -50,9 +41,17 @@ function getIdMinus () {
       }
       getInfo () 
      },[getId])
-     console.log(getInfo);
+     //Для задания 1
+     console.log('Задание1',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.plate.center.y)));
+     //Для задания 2
+     console.log('Задание2',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.plate.region)));
+     //Для задания 3
+     console.log('Задание3',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.vehicle_region)));
+     //Для задания 4
+     console.log('Задание4',getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.detection_state.timestamp)));
 
-     
+     const task4 = getInfo &&  getInfo.history.tracks.map(el => el.points.map(el => el.detection_state.timestamp)).join('\n')
+     console.log(task4);
 
 useEffect(()=> {
   async function getImgFetch () {
@@ -75,10 +74,13 @@ useEffect(()=> {
         <button onClick={() => {FetchFunc();getIdPlus()}}>List Photo</button>
         <br/>  
         <br/>  
-    
+        <div className='container_img'>
         <img src={`http://localhost:3001/img/${getId}`} alt='ops' width='600'/> 
+        <div className='data'>
+          {task4}
+        </div>
+        </div>
         {getInfo ? 
-    
         <div className='info'>
         <p>Гос номер ТС: {getInfo && getInfo.history.plate}</p>
         <p>Дата фиксации: {getInfo && getInfo.timestamp.slice(0,19)}</p>
