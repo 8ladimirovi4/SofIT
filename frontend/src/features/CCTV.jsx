@@ -10,7 +10,7 @@ function CCTV() {
   const [getTask2, setGetTask2] = useState(false);
   const [getTask3, setGetTask3] = useState(false);
   const [getTask4, setGetTask4] = useState(false);
-  const [getId, setGetId] = useState(0);
+  const [getId, setGetId] = useState(1);
   const [getInfo, setGetInfo] = useState();
   const [getDefaultInfo, setDefaultInfo] = useState();
 
@@ -34,17 +34,6 @@ function CCTV() {
     setGetTask4((prev) => !prev === true);
   }
 
-  async function FetchFunc() {
-    const response = await fetch(`http://localhost:3001/img`, {
-      method: 'POST',
-      body: JSON.stringify({
-        id: getId,
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const data = await response.json();
-  }
-
   function clearCanvas() {
     const context = task1.current.getContext('2d');
     context.clearRect(0, 0, task1.current.width, task1.current.height);
@@ -56,20 +45,27 @@ function CCTV() {
     context4.clearRect(0, 0, task4.current.width, task4.current.height);
   }
 
+  async function FetchFunc() {
+    const response = await fetch(`http://localhost:3001/img`, {
+      method: 'POST',
+      body: JSON.stringify({
+        id: getId,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await response.json();
+    console.log(data);
+    setGetInfo(JSON.parse(data.trace));
+  }
+
   useEffect(() => {
     async function getInfo() {
-      const response = await fetch('http://localhost:3001/data', {
-        method: 'POST',
-        body: JSON.stringify({
-          id: getId,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await fetch('http://localhost:3001/data')
       const data = await response.json();
       setGetInfo(JSON.parse(data.trace));
     }
     getInfo();
-  }, [getId]);
+  }, []);
 
   useEffect(() => {
     async function getImgFetch() {

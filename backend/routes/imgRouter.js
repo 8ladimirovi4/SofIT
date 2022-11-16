@@ -1,42 +1,54 @@
 /* eslint-disable */
 const imgRouter = require("express").Router();
-const { dir } = require("console");
 const fs = require('fs');
 const path = require('path');
 
-let id1
-let dir1
+
 let image
 const arr = []
-let obj = {}
 let map = new Map()
+
 imgRouter
 .post('/', (req, res) => {
 try{
-  id1 = Number(req.body.id)
+ const id1 = Number(req.body.id)
 fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
   if (err) {
     console.error(err);
     return;
   }
   files.forEach((file, i)=> {
-    dir1 = { id: i-2, name: file};
+   const dir1 = { id: i-1, name: file};
+   console.log(id1);
+   console.log(dir1);
     return arr.push(dir1)
   })
   arr.map(el => {
-    if(el.id === id1){
-  image = path.resolve(`${__dirname}/../uploads/${el.name}/debug.jpg`)
+    if(el.id + 1 === id1){
+   image = path.resolve(`${__dirname}/../uploads/${el.name}/debug.jpg`)
     }else{
       return
     }     
 })
+files.forEach((file, i)=> {
+  const dir2 = { id: i-1, name: file};
+  if(dir2.id === id1){
+  fs.readFile(`${__dirname}/../uploads/${dir2.name}/trace.json`, 'utf-8', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.json({trace: data})
+  })
+}
+})
 map.set('url', image)
-  res.json({img: image})
 })
 }catch (error){
   res.json({error: message})
 }
 })
+
 
 
   .get(`/:id`, (req, res) => {
