@@ -13,9 +13,13 @@ function CCTV() {
   const [getId, setGetId] = useState(1);
   const [getInfo, setGetInfo] = useState();
   const [getDefaultInfo, setDefaultInfo] = useState();
-console.log(getId);
+
   function getIdPlus() {
     setGetId((prev) => prev + 1);
+  }
+
+  function getIdMinus() {
+    setGetId((prev) => prev - 1);
   }
 
   function task1Func() {
@@ -53,32 +57,30 @@ console.log(getId);
       }),
       headers: { 'Content-Type': 'application/json' },
     });
-    const data = await response.json();
-    console.log(data);
-    setGetInfo(JSON.parse(data.trace));
+    if (response.ok) {
+      const data = await response.json();
+      setGetInfo(JSON.parse(data.trace));
+    } else {
+      console.log('no data');
+    }
   }
 
   useEffect(() => {
     async function getInfo() {
-      const response = await fetch(`http://localhost:3001/img/${getId}`)
-      const data = await response.json();
-    console.log(data);
-    }
-    getInfo();
-  }, []);
-
-  useEffect(() => {
-    async function getInfo() {
-      const response = await fetch('http://localhost:3001/data')
-      const data = await response.json();
-      setGetInfo(JSON.parse(data.trace));
+      const response = await fetch('http://localhost:3001/data');
+      if (response.ok) {
+        const data = await response.json();
+        setGetInfo(JSON.parse(data.trace));
+      } else {
+        console.log('no data');
+      }
     }
     getInfo();
   }, []);
 
   useEffect(() => {
     async function getImgFetch() {
-      const response = await fetch(`http://localhost:3001/data`);
+      const response = await fetch(`http://localhost:3001/data/${getId}`);
       if (response.ok) {
         const data = await response.json();
         setDefaultInfo(JSON.parse(data.trace));
@@ -199,7 +201,7 @@ console.log(getId);
             clearCanvas();
           }}
         >
-          List Photo
+          List forward
         </button>
         <br />
         <br />
@@ -208,6 +210,7 @@ console.log(getId);
             src={`http://localhost:3001/img/${getId}`}
             alt="ops"
             width="600"
+            className="image"
           />
           {getTask1 ? (
             <canvas ref={task1} height={'600px'} width={'500px'} />
@@ -231,7 +234,6 @@ console.log(getId);
           ) : (
             <canvas ref={task4} height={'0px'} width={'0px'} />
           )}
-         
         </div>
 
         {getInfo ? (

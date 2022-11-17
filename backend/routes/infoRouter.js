@@ -34,12 +34,26 @@ infoRouter
 // })
 
 
-.get(`/`, (req, res) => {
+.get(`/:id`, (req, res) => {
   try{
-   fs.readFile(`${__dirname}/../uploads/A226CO790_0c5759f8-edd9-4e10-b0aa-c996d14bebfc/trace.json`, 'utf-8', (err, data) => {
-    if(data)
- res.json({trace: data})
-  })
+    fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    files.forEach((file, i)=> {
+      const dir2 = { id: i-1, name: file};
+      if(dir2.id === Number(req.params.id)){
+      fs.readFile(`${__dirname}/../uploads/${dir2.name}/trace.json`, 'utf-8', (err, data) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        res.json({trace: data})
+      })
+    }
+    })
+    })
 }catch(error){
     res.json({error: message})
   }
