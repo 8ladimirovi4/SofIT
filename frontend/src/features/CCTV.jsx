@@ -13,7 +13,7 @@ function CCTV() {
   const [getId, setGetId] = useState(1);
   const [getInfo, setGetInfo] = useState();
   const [getDefaultInfo, setDefaultInfo] = useState();
-
+console.log(getId);
   function getIdPlus() {
     setGetId((prev) => prev + 1);
   }
@@ -57,6 +57,15 @@ function CCTV() {
     console.log(data);
     setGetInfo(JSON.parse(data.trace));
   }
+
+  useEffect(() => {
+    async function getInfo() {
+      const response = await fetch(`http://localhost:3001/img/${getId}`)
+      const data = await response.json();
+    console.log(data);
+    }
+    getInfo();
+  }, []);
 
   useEffect(() => {
     async function getInfo() {

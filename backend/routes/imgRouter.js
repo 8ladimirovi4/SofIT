@@ -4,14 +4,15 @@ const fs = require('fs');
 const path = require('path');
 
 
-let image
+
 const arr = []
 let map = new Map()
 
 imgRouter
 .post('/', (req, res) => {
 try{
- const id1 = Number(req.body.id)
+  const id1 = Number(req.body.id)
+  map.set('id', id1)
 fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
   if (err) {
     console.error(err);
@@ -19,13 +20,12 @@ fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
   }
   files.forEach((file, i)=> {
    const dir1 = { id: i-1, name: file};
-   console.log(id1);
-   console.log(dir1);
     return arr.push(dir1)
   })
   arr.map(el => {
-    if(el.id + 1 === id1){
-   image = path.resolve(`${__dirname}/../uploads/${el.name}/debug.jpg`)
+    if(el.id === id1){
+   const image = path.resolve(`${__dirname}/../uploads/${el.name}/debug.jpg`)
+   map.set('url', image)
     }else{
       return
     }     
@@ -42,7 +42,6 @@ files.forEach((file, i)=> {
   })
 }
 })
-map.set('url', image)
 })
 }catch (error){
   res.json({error: message})
@@ -52,24 +51,33 @@ map.set('url', image)
 
 
   .get(`/:id`, (req, res) => {
+ 
+    console.log(req.params.id);
     try{
-   if(map.get('url')){
-  res.status(200)
-  .sendFile(`${map.get('url')}`)
-}
-else{
-    res.sendFile(path.resolve(`${__dirname}/../uploads/A226CO790_0c5759f8-edd9-4e10-b0aa-c996d14bebfc/debug.jpg`))
-
-}
-    }catch(error){
-      res.json({error: message})
-    }
+  
+    fs.readdir(`${__dirname}/../uploads/`,(err, files) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      files.forEach((file, i)=> {
+       const dir1 = { id: i, name: file};
+        return arr.push(dir1)
+      })
+      arr.map(el => {
+        if(el.id === Number(req.params.id)){
+       const image = path.resolve(`${__dirname}/../uploads/${el.name}/debug.jpg`)
+       res.sendFile(image)  
+        }else{
+          return
+        }  
+        
+ 
+    })
   })
-
-
-
-
-
-
+}catch(error){
+  res.json({error: message})
+}
+})
 
 module.exports = imgRouter;
